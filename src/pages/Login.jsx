@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,13 @@ const Login = () => {
         : navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response.data.message);
+      Swal.fire({
+        icon: "error",
+        title: "Login failed!",
+        text:
+          error.response.data.message ||
+          "An error occurred during registration.",
+      });
     }
   };
 
