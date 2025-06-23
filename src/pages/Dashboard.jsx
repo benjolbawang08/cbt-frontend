@@ -87,13 +87,13 @@ const Dashboard = () => {
   };
 
   const features = [
-    {
-      icon: <Book size={40} color="white" />,
-      title: "Mata Pelajaran",
-      description: "Pelajari kisi-kisi ujian",
-      action: "Unduh",
-      onClick: handleDownload,
-    },
+    // {
+    //   icon: <Book size={40} color="white" />,
+    //   title: "Mata Pelajaran",
+    //   description: "Pelajari kisi-kisi ujian",
+    //   action: "Unduh",
+    //   onClick: handleDownload,
+    // },
     {
       icon: <BarChart2 size={40} color="white" />,
       title: "Riwayat Nilai",
