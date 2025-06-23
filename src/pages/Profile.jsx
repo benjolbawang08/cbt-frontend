@@ -55,7 +55,7 @@ const Profile = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`,
+          `https://cbt-backend-livid.vercel.app/api/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

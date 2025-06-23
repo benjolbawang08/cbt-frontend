@@ -12,24 +12,25 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        username,
-        email,
-        password,
-      });
+      await axios.post(
+        "https://cbt-backend-livid.vercel.app/api/auth/register",
+        {
+          username,
+          email,
+          password,
+        }
+      );
       Swal.fire({
         icon: "success",
         title: "Registration successful!",
         text: "You have successfully registered.",
       });
     } catch (error) {
-      console.error("Registration failed:", error.response.data.message);
+      console.error("Registration failed:", error);
       Swal.fire({
         icon: "error",
         title: "Registration failed!",
-        text:
-          error.response.data.message ||
-          "An error occurred during registration.",
+        text: error.response || "An error occurred during registration.",
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/login");

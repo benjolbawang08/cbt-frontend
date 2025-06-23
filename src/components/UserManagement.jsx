@@ -39,9 +39,12 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:5000/api/users/all", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://cbt-backend-livid.vercel.app/api/users/all",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUsers(response.data.users || []);
     } catch (error) {
       console.error("Error fetching users", error);
@@ -66,7 +69,7 @@ const UserManagement = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://cbt-backend-livid.vercel.app/api/auth/register",
         newUser,
         {
           headers: {
@@ -110,9 +113,12 @@ const UserManagement = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axios.delete(
+          `https://cbt-backend-livid.vercel.app/api/users/${id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         Swal.fire("Success", "User deleted successfully", "success");
         setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));

@@ -32,7 +32,7 @@ const QuestionList = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/questions/all",
+        "https://cbt-backend-livid.vercel.app/api/questions/all",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -68,9 +68,12 @@ const QuestionList = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/questions/${code}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axios.delete(
+          `https://cbt-backend-livid.vercel.app/api/questions/${code}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         Swal.fire("Success", "Question deleted successfully.", "success");
         setQuestions((prevQuestions) =>

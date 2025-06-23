@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://cbt-backend-livid.vercel.app/api/auth/login",
         { email, password },
         { headers: { "Content-Type": "application/json" } }
       );

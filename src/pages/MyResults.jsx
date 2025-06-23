@@ -39,7 +39,7 @@ const MyResults = () => {
       const user_id = localStorage.getItem("user_id");
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/results/${user_id}`,
+          `https://cbt-backend-livid.vercel.app/api/results/${user_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

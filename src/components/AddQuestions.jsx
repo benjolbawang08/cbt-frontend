@@ -98,7 +98,7 @@ const AddQuestion = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/questions/create",
+        "https://cbt-backend-livid.vercel.app/api/questions/create",
         { subject, code, questions },
         {
           headers: {

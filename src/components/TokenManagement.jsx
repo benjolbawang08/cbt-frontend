@@ -46,7 +46,7 @@ const TokenManagement = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/access-tokens",
+        "https://cbt-backend-livid.vercel.app/api/access-tokens",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -82,7 +82,7 @@ const TokenManagement = () => {
       if (isEditing) {
         // Update existing token
         await axios.put(
-          `http://localhost:5000/api/access-tokens/update/${currentToken.id}`,
+          `https://cbt-backend-livid.vercel.app/api/access-tokens/update/${currentToken.id}`,
           currentToken,
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
@@ -90,7 +90,7 @@ const TokenManagement = () => {
       } else {
         // Create new token
         await axios.post(
-          "http://localhost:5000/api/access-tokens",
+          "https://cbt-backend-livid.vercel.app/api/access-tokens",
           currentToken,
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
@@ -110,7 +110,7 @@ const TokenManagement = () => {
     const authToken = localStorage.getItem("token");
     try {
       await axios.delete(
-        `http://localhost:5000/api/access-tokens/delete/${tokenId}`,
+        `https://cbt-backend-livid.vercel.app/api/access-tokens/delete/${tokenId}`,
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }
