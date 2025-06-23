@@ -60,7 +60,7 @@ const calmTheme = createTheme({
 
 const CalmFooter = () => {
   const currentYear = new Date().getFullYear();
-  const ownerName = "Siti Wahyuni";
+  const ownerName = "BENJOLBAWANG";
 
   const socialLinks = [
     {
@@ -76,7 +76,7 @@ const CalmFooter = () => {
     {
       icon: <InstagramIcon />,
       color: "#c32aa3",
-      href: "#instagram",
+      href: "https://instagram.com/andrian.jun",
     },
     {
       icon: <LinkedInIcon />,

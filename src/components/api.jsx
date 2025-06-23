@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseUrl: "https://jokicbt7.vercel.app",
+  baseUrl: "http://localhost:5000",
   headers: {},
 });
 

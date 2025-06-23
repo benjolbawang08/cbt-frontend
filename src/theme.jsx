@@ -4,36 +4,36 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#a7c0cd",
-      main: "#78909c",
-      dark: "#4b636e",
-      contrastText: "#ffffff",
+      light: "#222222", // Light Green
+      main: "#333333", // Green
+      dark: "#558b2f", // Dark Green
+      contrastText: "#ffffff", // White
     },
     secondary: {
-      light: "#ffcccb",
-      main: "#ffab91",
-      dark: "#c97b63",
-      contrastText: "#ffffff",
+      light: "#ffb74d", // Light Orange
+      main: "rgb(17, 184, 203)",
+      dark: "#f57c00", // Dark Orange
+      contrastText: "#ffffff", // White
     },
     error: {
-      light: "#ef9a9a",
-      main: "#e57373",
-      dark: "#d32f2f",
-      contrastText: "#ffffff",
+      light: "#ef9a9a", // Light Red
+      main: "#f44336", // Red
+      dark: "#d32f2f", // Dark Red
+      contrastText: "#ffffff", // White
     },
     success: {
-      light: "#a5d6a7",
-      main: "#81c784",
-      dark: "#4caf50",
-      contrastText: "#ffffff",
+      light: "#81c784", // Light Green
+      main: "#4caf50", // Green
+      dark: "#388e3c", // Dark Green
+      contrastText: "#ffffff", // White
     },
     background: {
-      default: "#fafafa",
-      paper: "#ffffff",
+      default: "#ffffff",
+      paper: "#ffffff", // White
     },
     text: {
-      primary: "#212121",
-      secondary: "#757575",
+      primary: "#212121", // Almost Black
+      secondary: "#757575", // Grey
     },
   },
   typography: {

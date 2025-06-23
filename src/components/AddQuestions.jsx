@@ -11,6 +11,9 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 const AddQuestion = () => {
@@ -24,9 +27,15 @@ const AddQuestion = () => {
       optionC: "",
       optionD: "",
       correctOption: "",
-      score: 5,
+      score: 1, // Default value for score
     },
   ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   const handleQuestionChange = (index, field, value) => {
     const newQuestions = [...questions];
@@ -35,6 +44,28 @@ const AddQuestion = () => {
   };
 
   const addQuestionField = () => {
+    const isQuestionValid = (q) => {
+      return (
+        q.question &&
+        q.optionA &&
+        q.optionB &&
+        q.optionC &&
+        q.optionD &&
+        q.correctOption &&
+        q.score
+      );
+    };
+
+    if (!isQuestionValid(questions[questions.length - 1])) {
+      setSnackbar({
+        open: true,
+        message:
+          "Please complete the current question before adding a new one.",
+        severity: "warning",
+      });
+      return;
+    }
+
     setQuestions([
       ...questions,
       {
@@ -44,25 +75,30 @@ const AddQuestion = () => {
         optionC: "",
         optionD: "",
         correctOption: "",
-        score: 5,
+        score: 1,
       },
     ]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    // Get auth token from localStorage
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("No authentication token found. Please log in.");
+      setSnackbar({
+        open: true,
+        message: "No authentication token found. Please log in.",
+        severity: "error",
+      });
+      setIsLoading(false);
       return;
     }
 
     try {
       const response = await axios.post(
-        "https://jokicbt7.vercel.app/api/questions/create",
+        "http://localhost:5000/api/questions/create",
         { subject, code, questions },
         {
           headers: {
@@ -72,8 +108,11 @@ const AddQuestion = () => {
         }
       );
 
-      alert("Questions added successfully!");
-      // Reset form or navigate to another page
+      setSnackbar({
+        open: true,
+        message: "Questions added successfully!",
+        severity: "success",
+      });
       setQuestions([
         {
           question: "",
@@ -82,13 +121,23 @@ const AddQuestion = () => {
           optionC: "",
           optionD: "",
           correctOption: "",
-          score: 5,
+          score: 1,
         },
       ]);
     } catch (error) {
-      console.error("Error adding questions:", error);
-      alert("Failed to add questions. Please try again.");
+      console.error("Error adding questions:", error.response?.data || error);
+      setSnackbar({
+        open: true,
+        message: "Failed to add questions. Please try again.",
+        severity: "error",
+      });
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, message: "", severity: "success" });
   };
 
   return (
@@ -215,12 +264,30 @@ const AddQuestion = () => {
             >
               Add Another Question
             </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Submit Questions
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} /> : "Submit Questions"}
             </Button>
           </Box>
         </form>
       </Paper>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

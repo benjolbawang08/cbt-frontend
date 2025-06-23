@@ -39,7 +39,7 @@ const MyResults = () => {
       const user_id = localStorage.getItem("user_id");
       try {
         const response = await axios.get(
-          `https://jokicbt7.vercel.app/api/results/${user_id}`,
+          `http://localhost:5000/api/results/${user_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

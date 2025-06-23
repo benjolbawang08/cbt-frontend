@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, TextField, Button, Typography } from "@mui/material";
+import { Container, TextField, Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -12,9 +12,9 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://jokicbt7.vercel.app/api/auth/login",
+        "http://localhost:5000/api/auth/login",
         { email, password },
-        { headers: { "Content-Type": "application/json" } } // Menambahkan header jika diperlukan
+        { headers: { "Content-Type": "application/json" } }
       );
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("username", response.data.username);
@@ -34,13 +34,26 @@ const Login = () => {
     }
   };
 
+  const handleRegister = () => {
+    Swal.fire({
+      title: "Apakah kamu sudah mendaftar?",
+      showCancelButton: true,
+      confirmButtonText: "Sudah",
+      cancelButtonText: "Belum",
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        navigate("/register");
+      }
+    });
+  };
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{ minHeight: "100vh" }}>
       <Typography variant="h4" marginTop={"20px"} component="h1" gutterBottom>
         Login
       </Typography>
       <TextField
-        label="email"
+        label="Email"
         variant="outlined"
         fullWidth
         margin="normal"
@@ -59,6 +72,12 @@ const Login = () => {
       <Button variant="contained" color="primary" onClick={handleLogin}>
         Login
       </Button>
+      <Typography variant="body1" marginTop={"20px"}>
+        Don't have an account?{" "}
+        <Link href="#" onClick={handleRegister}>
+          Register
+        </Link>
+      </Typography>
     </Container>
   );
 };

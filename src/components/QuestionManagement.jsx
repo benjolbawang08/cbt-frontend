@@ -10,7 +10,6 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddQuestion from "./AddQuestions";
 
 const QuestionManagement = ({
   subject,
@@ -156,9 +155,6 @@ const QuestionManagement = ({
         >
           Submit All Questions
         </Button>
-      </Box>
-      <Box mt={2}>
-        <AddQuestion />
       </Box>
     </Box>
   );

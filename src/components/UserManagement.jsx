@@ -1,84 +1,229 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
-  Box,
+  Container,
+  Paper,
   Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
   TextField,
   Button,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
+  Box,
+  Snackbar,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
 
-const UserManagement = ({
-  users,
-  newUser,
-  setNewUser,
-  handleAddUser,
-  handleDeleteUser,
-}) => {
+const UserManagement = () => {
+  const [users, setUsers] = useState([]);
+  const [newUser, setNewUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  // Fetch all users
+  const fetchUsers = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("http://localhost:5000/api/users/all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsers(response.data.users || []);
+    } catch (error) {
+      console.error("Error fetching users", error);
+      setSnackbar({
+        open: true,
+        message: "Failed to fetch users.",
+        severity: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Add a new user
+  const handleAddUser = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!newUser.username || !newUser.email || !newUser.password) {
+      Swal.fire("Error", "Please fill in all fields", "error");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        newUser,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      Swal.fire("Success", "User added successfully", "success");
+      console.log("New user response:", response.data);
+      setNewUser({ username: "", email: "", password: "" });
+      fetchUsers();
+    } catch (error) {
+      console.error(
+        "Error adding user:",
+        error.response?.data || error.message
+      );
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Failed to add user",
+        "error"
+      );
+    }
+  };
+
+  // Delete a user
+  const handleDeleteUser = async (id) => {
+    const token = localStorage.getItem("token");
+
+    const result = await Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan dapat mengembalikan ini!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:5000/api/users/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        Swal.fire("Success", "User deleted successfully", "success");
+        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      } catch (error) {
+        console.error(
+          "Error deleting user:",
+          error.response?.data || error.message
+        );
+        Swal.fire("Error", "Failed to delete user", "error");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, message: "", severity: "success" });
+  };
+
   return (
-    <Box>
-      <Typography variant="h6" gutterBottom>
-        User Management
-      </Typography>
-      <List>
-        {Array.isArray(users) && users.length > 0 ? (
-          users.map((user) => (
-            <ListItem key={user._id}>
-              <ListItemText
-                primary={user.username}
-                secondary={user.email + " | " + user.role}
-              />
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => handleDeleteUser(user._id)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          ))
+    <Container maxWidth="lg">
+      <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          User Management
+        </Typography>
+
+        <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+          <TextField
+            label="Username"
+            value={newUser.username}
+            onChange={(e) =>
+              setNewUser({ ...newUser, username: e.target.value })
+            }
+            required
+          />
+          <TextField
+            label="Email"
+            type="email"
+            value={newUser.email}
+            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+            required
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={newUser.password}
+            onChange={(e) =>
+              setNewUser({ ...newUser, password: e.target.value })
+            }
+            required
+          />
+          <Button variant="contained" color="primary" onClick={handleAddUser}>
+            Add User
+          </Button>
+        </Box>
+
+        {isLoading ? (
+          <CircularProgress />
         ) : (
-          <Typography variant="body2" color="textSecondary">
-            No users available.
-          </Typography>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <strong>Username</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Email</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Actions</strong>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user._id}>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDeleteUser(user._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
-      </List>
-      <Box mt={2}>
-        <TextField
-          label="Username"
-          value={newUser.username}
-          onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
-          fullWidth
-          margin="dense"
-        />
-        <TextField
-          label="Email"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-          fullWidth
-          margin="dense"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={newUser.password}
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-          fullWidth
-          margin="dense"
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAddUser}
-          fullWidth
+      </Paper>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
         >
-          Add User
-        </Button>
-      </Box>
-    </Box>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Container>
   );
 };
 

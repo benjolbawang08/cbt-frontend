@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import { Container, TextField, Button, Typography } from "@mui/material";
+import { Container, TextField, Button, Typography, Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
-      await axios.post("https://jokicbt7.vercel.app/api/auth/register", {
+      await axios.post("http://localhost:5000/api/auth/register", {
         username,
         email,
         password,
       });
-      // Menampilkan SweetAlert untuk pendaftaran berhasil
       Swal.fire({
         icon: "success",
         title: "Registration successful!",
@@ -23,19 +24,35 @@ const Register = () => {
       });
     } catch (error) {
       console.error("Registration failed:", error.response.data.message);
-      // Menampilkan SweetAlert untuk pendaftaran gagal
       Swal.fire({
         icon: "error",
         title: "Registration failed!",
         text:
           error.response.data.message ||
           "An error occurred during registration.",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
       });
     }
   };
 
+  const handleLogin = () => {
+    Swal.fire({
+      title: "Sudah memiliki akun?",
+      showCancelButton: true,
+      confirmButtonText: "Sudah",
+      cancelButtonText: "Belum",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
+  };
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{ minHeight: "100vh" }}>
       <Typography variant="h4" marginTop={"20px"} component="h1" gutterBottom>
         Register
       </Typography>
@@ -67,6 +84,12 @@ const Register = () => {
       <Button variant="contained" color="primary" onClick={handleRegister}>
         Register
       </Button>
+      <Typography variant="body1" marginTop={"20px"}>
+        Already have an account?{" "}
+        <Link href="#" onClick={handleLogin}>
+          Login
+        </Link>
+      </Typography>
     </Container>
   );
 };

@@ -26,7 +26,8 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 // Soft Pastel Theme
 const softPastelTheme = {
-  gradient: "linear-gradient(135deg, #cb8411 0%, #25eefc 100%)",
+  gradient:
+    "linear-gradient(135deg,rgb(17, 101, 203) 0%,rgb(147, 32, 201) 100%)",
   background: "rgba(255, 255, 255, 0.9)",
   blur: "blur(15px)",
   shadow: "0 8px 20px rgba(0,0,0,0.1)",
@@ -88,6 +89,7 @@ const Header = () => {
             Home
           </NeumoButton>
           <NeumoButton
+            color="primary.main"
             startIcon={<LoginRoundedIcon />}
             component={Link}
             to="/login"
@@ -97,7 +99,7 @@ const Header = () => {
           </NeumoButton>
           <NeumoButton
             variant="contained"
-            color="secondary"
+            color="primary.main"
             startIcon={<PersonAddRoundedIcon />}
             component={Link}
             to="/register"
@@ -160,7 +162,7 @@ const Header = () => {
             }}
             onClick={() => navigate("/")}
           >
-            CBT App
+            SMATUS
           </Typography>
 
           {isMobile ? (

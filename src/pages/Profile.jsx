@@ -16,7 +16,8 @@ import axios from "axios";
 
 // Custom Styled Components
 const GradientBackground = styled(Box)(({ theme }) => ({
-  background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
+  background:
+    "linear-gradient(135deg,rgb(17, 184, 203) 0%,rgb(37, 137, 252) 100%)",
   minHeight: "100vh",
   display: "flex",
   alignItems: "center",
@@ -54,7 +55,7 @@ const Profile = () => {
 
       try {
         const response = await axios.get(
-          `https://jokicbt7.vercel.app/api/users/${userId}`,
+          `http://localhost:5000/api/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

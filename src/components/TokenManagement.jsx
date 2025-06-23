@@ -46,7 +46,7 @@ const TokenManagement = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        "https://jokicbt7.vercel.app/api/access-tokens",
+        "http://localhost:5000/api/access-tokens",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -82,7 +82,7 @@ const TokenManagement = () => {
       if (isEditing) {
         // Update existing token
         await axios.put(
-          `https://jokicbt7.vercel.app/api/access-tokens/update/${currentToken.id}`,
+          `http://localhost:5000/api/access-tokens/update/${currentToken.id}`,
           currentToken,
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
@@ -90,7 +90,7 @@ const TokenManagement = () => {
       } else {
         // Create new token
         await axios.post(
-          "https://jokicbt7.vercel.app/api/access-tokens",
+          "http://localhost:5000/api/access-tokens",
           currentToken,
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
@@ -110,7 +110,7 @@ const TokenManagement = () => {
     const authToken = localStorage.getItem("token");
     try {
       await axios.delete(
-        `https://jokicbt7.vercel.app/api/access-tokens/delete/${tokenId}`,
+        `http://localhost:5000/api/access-tokens/delete/${tokenId}`,
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }

@@ -19,7 +19,8 @@ import Swal from "sweetalert2";
 
 // Custom Styled Components
 const GradientBackground = styled(Box)(({ theme }) => ({
-  background: "linear-gradient(135deg, #cb8411 0%, #25eefc 100%)",
+  background:
+    "linear-gradient(135deg,rgb(17, 184, 203) 0%,rgb(37, 137, 252) 100%)",
   minHeight: "100vh",
   display: "flex",
   alignItems: "center",
