@@ -207,7 +207,7 @@ const Profile = () => {
                 ))}
 
                 {/* Edit Profile Button */}
-                <motion.div
+                {/* <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -224,7 +224,7 @@ const Profile = () => {
                   >
                     Edit Profil
                   </Button>
-                </motion.div>
+                </motion.div> */}
               </Grid>
             </Grid>
           </GlassCard>
