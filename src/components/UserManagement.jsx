@@ -17,6 +17,7 @@ import {
   Snackbar,
   Alert,
   CircularProgress,
+  Grid,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
@@ -147,34 +148,54 @@ const UserManagement = () => {
           User Management
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-          <TextField
-            label="Username"
-            value={newUser.username}
-            onChange={(e) =>
-              setNewUser({ ...newUser, username: e.target.value })
-            }
-            required
-          />
-          <TextField
-            label="Email"
-            type="email"
-            value={newUser.email}
-            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={newUser.password}
-            onChange={(e) =>
-              setNewUser({ ...newUser, password: e.target.value })
-            }
-            required
-          />
-          <Button variant="contained" color="primary" onClick={handleAddUser}>
-            Add User
-          </Button>
+        <Box sx={{ mb: 4 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                label="Username"
+                value={newUser.username}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, username: e.target.value })
+                }
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                label="Email"
+                type="email"
+                value={newUser.email}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, email: e.target.value })
+                }
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                value={newUser.password}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, password: e.target.value })
+                }
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} display="flex" alignItems="center">
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleAddUser}
+              >
+                Add User
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
 
         {isLoading ? (
