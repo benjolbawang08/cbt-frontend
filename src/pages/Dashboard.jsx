@@ -120,7 +120,7 @@ const Dashboard = () => {
             transition={{ duration: 0.8 }}
           >
             {/* User Profile Section */}
-            <Box sx={{ textAlign: "center", mb: 4 }}>
+            <Box sx={{ textAlign: "center", mb: 4, px: 2 }}>
               <Avatar
                 sx={{
                   width: 100,
@@ -139,6 +139,7 @@ const Dashboard = () => {
                   color: "white",
                   fontWeight: "bold",
                   mb: 1,
+                  fontSize: { xs: "1.8rem", sm: "2.2rem", md: "2.5rem" },
                 }}
               >
                 Selamat Datang, {username}!
@@ -149,6 +150,7 @@ const Dashboard = () => {
                   color: "rgba(255,255,255,0.8)",
                   maxWidth: 500,
                   mx: "auto",
+                  fontSize: { xs: "0.9rem", sm: "1rem" },
                 }}
               >
                 Siap untuk memulai ujian hari ini? Pilih menu di bawah untuk
@@ -166,31 +168,30 @@ const Dashboard = () => {
             {/* Features Grid */}
             <Grid container spacing={3} sx={{ mb: 4 }}>
               {features.map((feature, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <FeatureCard elevation={0}>
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <FeatureCard elevation={0} sx={{ height: "100%" }}>
                     <Box
                       sx={{
                         display: "flex",
+                        flexDirection: { xs: "column", sm: "row" },
                         alignItems: "center",
-                        width: "100%",
+                        gap: 2,
+                        textAlign: { xs: "center", sm: "left" },
                       }}
                     >
-                      <Box sx={{ mr: 2 }}>{feature.icon}</Box>
+                      <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        {feature.icon}
+                      </Box>
                       <Box sx={{ flexGrow: 1 }}>
                         <Typography
                           variant="h6"
-                          sx={{
-                            color: "white",
-                            mb: 0.5,
-                          }}
+                          sx={{ color: "white", mb: 0.5 }}
                         >
                           {feature.title}
                         </Typography>
                         <Typography
                           variant="body2"
-                          sx={{
-                            color: "rgba(255,255,255,0.7)",
-                          }}
+                          sx={{ color: "rgba(255,255,255,0.7)" }}
                         >
                           {feature.description}
                         </Typography>
@@ -205,6 +206,7 @@ const Dashboard = () => {
                           size="small"
                           onClick={feature.onClick}
                           sx={{
+                            mt: { xs: 1, sm: 0 },
                             color: "white",
                             borderColor: "white",
                             "&:hover": {
@@ -234,6 +236,7 @@ const Dashboard = () => {
                     borderRadius: 8,
                     px: 4,
                     py: 1.5,
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
                   }}
                 >
                   Mulai Ujian
