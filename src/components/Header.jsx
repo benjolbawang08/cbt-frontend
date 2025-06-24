@@ -162,7 +162,7 @@ const Header = () => {
             }}
             onClick={() => navigate("/")}
           >
-            SMATUS
+            STEMSA-CBT
           </Typography>
 
           {isMobile ? (
